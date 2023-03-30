@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    container_name: 'postgres'
+    image: 'postgres:14'
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+  web:
+    container_name: fast_api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: tail -f /dev/null
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - ./:/app
